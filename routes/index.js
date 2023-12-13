@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const userModel = require('./users.js');
 const passport = require('passport');
+const localStrategy = require("passport-local");
+passport.use(new localStrategy(userModel.authenticate()));
 
 
 router.get('/', function(req, res, next) {
@@ -32,11 +34,11 @@ router.post('/register', function(req, res, next) {
   })
 });
 
-router.post('/login', passport.authenticate("local", {
-  failureRedirect: "/",
+router.post("/login", passport.authenticate("local",{
   successRedirect: "/profile",
-}),function(req,res,next){
-});
+  failureRedirect: "/"
+
+}),function(req,res){});
 
 router.get('/logout', function(req, res,next){
   req.logout(function(err) {
