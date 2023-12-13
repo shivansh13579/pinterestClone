@@ -4,6 +4,7 @@ const userModel = require('./users.js');
 const passport = require('passport');
 const localStrategy = require("passport-local");
 passport.use(new localStrategy(userModel.authenticate()));
+const upload = require('./multer.js');
 
 
 router.get('/', function(req, res, next) {
@@ -17,6 +18,13 @@ router.get('/register', function(req, res, next) {
 router.get('/profile', isLoggedIn,function(req, res, next) {
   res.render('profile');
 });
+
+// router.post('/upload',upload.single('file'),(req,res)=>{
+//   if(!req.file){
+//     return res.status(400).send('No files were uploaded.');
+//   }
+//   res.send('File uploaded successfully!');
+// });
 
 router.post('/register', function(req, res, next) {
   const data = new userModel({
